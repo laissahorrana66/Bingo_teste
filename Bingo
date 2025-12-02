@@ -1,57 +1,53 @@
-import tkinter as tk
 import random
+import time
 
-# Lista de números fornecidos
-numeros = [
-    89, 9, 15, 87, 37, 56, 97, 64, 49, 24,
-    11, 78, 100, 28, 45, 69, 82, 34, 7, 52,
-    94, 33, 16, 61, 5, 71, 27, 93, 43, 21,
-    79, 67, 3, 55, 99, 17, 31, 50, 8, 91,
-    23, 6, 73, 40, 85, 13, 59, 2, 84, 46,
-    1, 95, 57, 12, 80, 38, 70, 25, 4, 60,
-    77, 35, 92, 19, 48, 65, 39, 72, 14, 54,
-    90, 63, 30, 51, 86, 20, 18, 98, 68, 44,
-    29, 74, 88, 53, 42, 81, 10, 62, 26, 96,
-    36, 22, 83, 41, 75, 47, 76, 32
-]
+# 1. Cria a lista de todos os números disponíveis (de 1 a 100)
+numeros_para_sorteio = list(range(1, 101))
 
-random.shuffle(numeros)
+# 2. Embaralha a lista para definir a ordem aleatória do sorteio
+random.shuffle(numeros_para_sorteio)
 
-# ------ Interface ------
-janela = tk.Tk()
-janela.title("Bingo - Sorteio")
-janela.geometry("400x500")
-janela.configure(bg="#0B4F9C")  # Azul de fundo
+# Lista para armazenar os números já sorteados
+numeros_sorteados = []
 
-numero_atual = tk.StringVar(value="Pressione Sortear")
-
-# Criar a bola laranja
-canvas = tk.Canvas(janela, width=300, height=300, bg="#0B4F9C", highlightthickness=0)
-canvas.pack(pady=40)
-
-bola = canvas.create_oval(30, 30, 270, 270, fill="#FF7A00", outline="white", width=4)  # Bola laranja
-
-# Número dentro da bola
-texto = canvas.create_text(150, 150, text="?", fill="white",
-                           font=("Arial", 70, "bold"))
-
-def sortear():
-    if numeros:
-        n = numeros.pop(0)
-        canvas.itemconfig(texto, text=str(n))
+def sortear_proximo_numero():
+    """Simula o sorteio do próximo número da lista embaralhada."""
+    if numeros_para_sorteio:
+        # Pega e remove o primeiro número da lista (que já está em ordem aleatória)
+        numero_sorteado = numeros_para_sorteio.pop(0)
+        numeros_sorteados.append(numero_sorteado)
+        return numero_sorteado
     else:
-        canvas.itemconfig(texto, text="Fim")
+        return None
 
-# Botão sortear
-botao = tk.Button(
-    janela,
-    text="Sortear",
-    font=("Arial", 20, "bold"),
-    bg="#ffffff",
-    fg="#0B4F9C",
-    width=10,
-    command=sortear
-)
-botao.pack(pady=10)
+def iniciar_bingo():
+    """Função principal para executar a simulação do bingo."""
+    print("✨ BEM-VINDO AO SORTEIO DE BINGO (1 a 100) ✨")
+    print(f"Total de números a sortear: {len(numeros_para_sorteio)}")
+    print("-" * 35)
 
-janela.mainloop()
+    while numeros_para_sorteio:
+        # Sorteia o próximo número
+        numero = sortear_proximo_numero()
+
+        # Verifica se ainda há números para sortear
+        if numero is not None:
+            print(f"Número sorteado: **{numero}**")
+            print(f"Números já sorteados: {numeros_sorteados}")
+            print("-" * 35)
+
+            # Pausa para simular o tempo de um sorteio real
+            # Você pode comentar a linha abaixo se quiser um sorteio rápido
+            time.sleep(1) # Pausa de 1 segundo
+
+            # Opcional: Pausa e espera por um comando do usuário para continuar
+            # input("Pressione ENTER para sortear o próximo número...")
+        else:
+            break
+
+    print("🎉 FIM DO SORTEIO! Todos os 100 números foram chamados. 🎉")
+    print(f"Ordem final do sorteio: {numeros_sorteados}")
+
+# Executa a função principal
+if __name__ == "__main__":
+    iniciar_bingo()
