@@ -1,53 +1,41 @@
 import random
-import time
 
-# 1. Cria a lista de todos os números disponíveis (de 1 a 100)
-numeros_para_sorteio = list(range(1, 101))
+def sorteio_bingo():
+    """Simula o sorteio de bolas de bingo (1 a 75)."""
 
-# 2. Embaralha a lista para definir a ordem aleatória do sorteio
-random.shuffle(numeros_para_sorteio)
+    # Cria uma lista com todos os números de bingo (1 a 75)
+    bolas_disponiveis = list(range(1, 76))
+    
+    # Inicializa uma lista para armazenar os números sorteados
+    bolas_sorteadas = []
+    
+    print("--- 🎰 Início do Sorteio de Bingo (Números 1 a 75) 🎰 ---")
+    print(f"Total de bolas para sortear: {len(bolas_disponiveis)}")
 
-# Lista para armazenar os números já sorteados
-numeros_sorteados = []
-
-def sortear_proximo_numero():
-    """Simula o sorteio do próximo número da lista embaralhada."""
-    if numeros_para_sorteio:
-        # Pega e remove o primeiro número da lista (que já está em ordem aleatória)
-        numero_sorteado = numeros_para_sorteio.pop(0)
-        numeros_sorteados.append(numero_sorteado)
-        return numero_sorteado
-    else:
-        return None
-
-def iniciar_bingo():
-    """Função principal para executar a simulação do bingo."""
-    print("✨ BEM-VINDO AO SORTEIO DE BINGO (1 a 100) ✨")
-    print(f"Total de números a sortear: {len(numeros_para_sorteio)}")
-    print("-" * 35)
-
-    while numeros_para_sorteio:
-        # Sorteia o próximo número
-        numero = sortear_proximo_numero()
-
-        # Verifica se ainda há números para sortear
-        if numero is not None:
-            print(f"Número sorteado: **{numero}**")
-            print(f"Números já sorteados: {numeros_sorteados}")
-            print("-" * 35)
-
-            # Pausa para simular o tempo de um sorteio real
-            # Você pode comentar a linha abaixo se quiser um sorteio rápido
-            time.sleep(1) # Pausa de 1 segundo
-
-            # Opcional: Pausa e espera por um comando do usuário para continuar
-            # input("Pressione ENTER para sortear o próximo número...")
+    # Loop principal para sortear as bolas até que acabem
+    input("\nPressione **Enter** para sortear a primeira bola...")
+    
+    while bolas_disponiveis:
+        # 1. Escolhe uma bola aleatoriamente da lista de disponíveis
+        bola_sorteada = random.choice(bolas_disponiveis)
+        
+        # 2. Remove a bola sorteada da lista de disponíveis
+        bolas_disponiveis.remove(bola_sorteada)
+        
+        # 3. Adiciona a bola sorteada à lista de sorteadas (para registro)
+        bolas_sorteadas.append(bola_sorteada)
+        
+        # 4. Exibe o resultado do sorteio
+        print(f"\n✨ **BOLA SORTEADA:** **{bola_sorteada}**")
+        print(f"Bolas sorteadas até agora ({len(bolas_sorteadas)}): {bolas_sorteadas}")
+        
+        # 5. Pausa e espera pela ação do usuário
+        if bolas_disponiveis:
+            input("\nPressione **Enter** para sortear a próxima bola...")
         else:
-            break
+            print("\n--- 🛑 Fim do Sorteio. Todas as bolas foram sorteadas! 🛑 ---")
 
-    print("🎉 FIM DO SORTEIO! Todos os 100 números foram chamados. 🎉")
-    print(f"Ordem final do sorteio: {numeros_sorteados}")
+    return bolas_sorteadas
 
-# Executa a função principal
-if __name__ == "__main__":
-    iniciar_bingo()
+# Executa a função
+sorteio_bingo()
